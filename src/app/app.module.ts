@@ -12,7 +12,6 @@ import { ListaClienteComponent } from './components/cliente/lista-cliente/lista-
 import { ListaLancamentoComponent } from './components/lancamento/lista-lancamento/lista-lancamento.component';
 import { CadastroLancamentoComponent } from './components/lancamento/cadastro-lancamento/cadastro-lancamento.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PrimengModule } from './primeng.module';
 
 @NgModule({
   declarations: [
@@ -31,7 +30,6 @@ import { PrimengModule } from './primeng.module';
     FlexLayoutModule,
     NgxMaskModule.forRoot(),
     AngularMaterialModule,
-    PrimengModule
   ],
   providers: [],
   bootstrap: [AppComponent]

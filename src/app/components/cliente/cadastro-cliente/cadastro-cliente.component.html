@@ -1,5 +1,5 @@
-<div class="cadastro-cliente">
-  <div fxLayout.lt-xl="row" fxLayoutAlign="center center">
+<div>
+  <div fxLayout.lt-xl="row" fxLayoutAlign="center center" style="padding-top: 20px;">
     <h1>Novo Cliente</h1>
   </div>
         <div fxLayout="column" fxLayoutAlign="center">
@@ -32,7 +32,8 @@
               <button 
               mat-raised-button 
               color="primary"
-              type="submit">Cadastrar</button>
+              type="submit"
+              [disabled]="!formularioCadastro.valid">Cadastrar</button>
             </div>
           </form>
         </div>
