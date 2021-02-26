@@ -1,0 +1,58 @@
+<div class="borda centro">
+    <div fxLayoutAlign="center center" style="padding-top: 20px;">
+       <h2>Nesta sessão você consegue cadastrar os seus lançamentos</h2>
+    </div>
+</div>
+  <div class="borda centro" style="height: 300px;">
+    <form>
+      <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px">
+        <mat-form-field fxFlex>
+          <mat-label>Cliente</mat-label>
+          <input matInput type="text" placeholder="Ex. Fulano da Silva"/>
+        </mat-form-field>
+        <mat-form-field style="width: 200px;">
+          <mat-label>Data do Lançamento</mat-label>
+          <input matInput [matDatepicker]="picker">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px">
+        <mat-form-field fxFlex>
+          <mat-label>Produto</mat-label>
+          <input matInput type="text"/>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Unidade de Medida</mat-label>
+          <input matInput type="text"/>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px">
+        <mat-form-field fxFlex>
+          <mat-label>Valor Unitário</mat-label>
+          <input matInput type="number"/>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Quantidade</mat-label>
+          <input matInput type="number"/>
+        </mat-form-field>
+        <mat-form-field style="width: 100px;">
+          <mat-label>Valor Total</mat-label>
+          <input matInput type="number"/>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px">
+        <mat-form-field fxFlex>
+          <mat-label>Nº da Nota</mat-label>
+          <input matInput type="number"/>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Observação</mat-label>
+          <input matInput type="text"/>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutAlign="center">
+        <button mat-raised-button color="primary">Cadastrar</button>
+      </div>
+    </form>
+  </div>

@@ -1,0 +1,39 @@
+<div class="cadastro-cliente">
+  <div fxLayout.lt-xl="row" fxLayoutAlign="center center">
+    <h1>Novo Cliente</h1>
+  </div>
+        <div fxLayout="column" fxLayoutAlign="center">
+          <form [formGroup]="formularioCadastro"
+          (ngSubmit)="onSubmit()">
+            <div class="centro">
+              <mat-form-field class="example-full-width">
+                <mat-label>Nome</mat-label>
+                <input matInput [formControl]="nomeFormControl"
+                placeholder="Ex: Fulano da Silva"
+                required>
+                <mat-error *ngIf="nomeFormControl.hasError('required')">
+                  Nome é obrigatório
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="centro">
+              <mat-form-field class="example-full-width">
+                <mat-label>CPF</mat-label>
+                <input matInput [formControl]="cpfFormControl"
+                placeholder="Ex: 000.000.000-00"
+                required
+                mask="000.000.000-00">
+                <mat-error *ngIf="cpfFormControl.hasError('required')">
+                  CPF é obrigatório
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center">
+              <button 
+              mat-raised-button 
+              color="primary"
+              type="submit">Cadastrar</button>
+            </div>
+          </form>
+        </div>
+</div>

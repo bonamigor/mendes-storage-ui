@@ -1,0 +1,26 @@
+<div class="app">
+  <div class="flex-container" fxLayout="row">
+    <mat-toolbar color="primary">
+      <a mat-button routerLink="/"><h2>Estoque Mendes</h2></a>
+      <span class="app-spacer"></span>
+      <a style="font-size: 14px">Bem-vindo!</a>
+      <span class="app-spacer"></span>
+      <div>
+        <button mat-button [matMenuTriggerFor]="menuCliente">Cliente</button>
+        <mat-menu #menuCliente="matMenu">
+          <button mat-menu-item routerLink="/cadastro-cliente">Cadastrar Cliente</button>
+          <button mat-menu-item routerLink="/clientes">Listar Clientes</button>
+        </mat-menu>
+        <button mat-button [matMenuTriggerFor]="menuLancamento">Lançamento</button>
+        <mat-menu #menuLancamento="matMenu">
+          <button mat-menu-item routerLink="/cadastro-lancamento">Cadastrar Lançamento</button>
+          <button mat-menu-item routerLink="/lancamentos">Listar Lançamentos</button>
+        </mat-menu>
+      </div>
+    </mat-toolbar>
+  </div>
+
+  <div fxFlexFill>
+    <router-outlet></router-outlet>
+  </div>
+</div>  
