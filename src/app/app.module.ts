@@ -12,6 +12,7 @@ import { ListaClienteComponent } from './components/cliente/lista-cliente/lista-
 import { ListaLancamentoComponent } from './components/lancamento/lista-lancamento/lista-lancamento.component';
 import { CadastroLancamentoComponent } from './components/lancamento/cadastro-lancamento/cadastro-lancamento.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FlexLayoutModule,
     NgxMaskModule.forRoot(),
     AngularMaterialModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Lancamento } from 'src/app/models/lancamento.model';
 import { LancamentoService } from 'src/app/services/lancamento.service';
 
@@ -10,6 +10,7 @@ import { LancamentoService } from 'src/app/services/lancamento.service';
 })
 export class ListaLancamentoComponent implements OnInit, OnDestroy {
 
+  lancamento!: Lancamento;
   lancamentos!: Lancamento[];
   subscricao!: Subscription;
 
@@ -20,16 +21,17 @@ export class ListaLancamentoComponent implements OnInit, OnDestroy {
   constructor(private lancamentoService: LancamentoService) { }
 
   ngOnInit(): void {
-    this.subscricao = this.lancamentoService.listaLancamentoSubject.subscribe(
-      (lancamentos: Lancamento[]) => {
-        this.lancamentos = lancamentos;
-      }
-    );
-    this.lancamentos = this.lancamentoService.getLancamentos();
+    this.getLancamentos();
   }
 
   ngOnDestroy(): void {
     this.subscricao.unsubscribe();
+  }
+
+  getLancamentos() {
+    this.lancamentoService.getLancamentos().subscribe((lancamentos: Lancamento[]) => {
+      this.lancamentos = lancamentos;
+    });
   }
 
 }

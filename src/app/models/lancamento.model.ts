@@ -15,7 +15,7 @@ export class Lancamento {
         quantidade: number, valorTotal: number, numeroNota: number, observacao: string) {
             this.id = id;
             this.cliente = cliente;
-            this.dataLancamento = new Date();
+            this.dataLancamento = dataLancamento;
             this.produto = produto;
             this.unidadeMedida = unidadeMedida;
             this.valorUnitario = valorUnitario;
