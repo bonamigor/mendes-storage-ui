@@ -1,6 +1,6 @@
 <div class="centro">
     <div fxLayoutAlign="center center" style="padding-top: 20px;">
-       <h1>Novo Lançamento</h1>
+       <h1>{{ modoEdicao ? 'Atualizar Lançamento' : 'Novo Lançamento' }}</h1>
     </div>
 </div>
   <div class="borda centro" style="height: 300px;">
@@ -82,7 +82,8 @@
       </div>
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutAlign="center">
         <button mat-raised-button color="primary"
-        [disabled]="!formularioCadastro.valid">Cadastrar</button>
+        [disabled]="!formularioCadastro.valid">
+        {{ modoEdicao ? 'Atualizar' : 'Cadastrar' }}</button>
       </div>
     </form>
   </div>
