@@ -17,7 +17,7 @@ export class LancamentoService {
     new Lancamento(2, 'JUAREZ', new Date(), 'Molho de Tomate',
     'KG', 3.69, 1000, 3690, 123578, 'Novas')];
 
-  url = 'http://localhost:8080/lancamentos';
+  url = 'https://bonamigo-api.herokuapp.com/lancamentos';
 
   listaLancamentoSubject = new Subject<Lancamento[]>();
 
@@ -40,11 +40,8 @@ export class LancamentoService {
     return lancamento;
   }
 
-  getLancamentos(): Observable<Lancamento[]> {
-    return this.httpClient.get<Lancamento[]>(this.url)
-      .pipe(
-        retry(2),
-        catchError(this.handleError))
+  getLancamentos(): Observable<any> {
+    return this.httpClient.get(this.url);
   }
 
   getLancamentoById(id: number): Observable<Lancamento> {

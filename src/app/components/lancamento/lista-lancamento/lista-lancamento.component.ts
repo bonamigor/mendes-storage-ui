@@ -24,26 +24,17 @@ export class ListaLancamentoComponent implements OnInit, OnDestroy {
               private router: Router,) { }
 
   ngOnInit(): void {
-    this.subscricao = this.lancamentoService.listaLancamentoSubject.subscribe(
-      (lancamentos: Lancamento[]) => {
-        this.lancamentos = lancamentos;
-      }
-    );
-    this.lancamentos = this.lancamentoService.getLancamentosOff();
+    this.getLancamentos();
   }
 
   ngOnDestroy(): void {
     this.subscricao.unsubscribe();
   }
 
-  getLancamentos() {
-    this.lancamentoService.getLancamentos().subscribe((lancamentos: Lancamento[]) => {
-      this.lancamentos = lancamentos;
+  getLancamentos(): void {
+    this.lancamentoService.getLancamentos().subscribe((data: Lancamento[]) => {
+      this.lancamentos = data;
     });
-  }
-
-  getLancamentosOff() {
-    this.lancamentoService.getLancamentosOff();
   }
 
   onSelecionarLancamento(lancamento: Lancamento): void {

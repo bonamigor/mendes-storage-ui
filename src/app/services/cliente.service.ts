@@ -1,32 +1,30 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { Cliente } from '../models/cliente.model';
+import { Observable, Subject } from 'rxjs';
+import Cliente from '../models/cliente.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClienteService {
 
+  uri = 'https://bonamigo-api.herokuapp.com';
+  url = 'https://bonamigo-api.herokuapp.com/clientes';
+
   listaClienteSubject = new Subject<Cliente[]>();
 
-  private clientes: Cliente[] = [
-    new Cliente(1, 'Rafael Bonamigo', '701.026.311-66'),
-    new Cliente(2, 'Juarez Bonamigo', '471.222.850-59'),
-  ];
+  constructor(private httpClient: HttpClient) { }
 
-  constructor() { }
-
-  getClientes(): Cliente[] {
-    return this.clientes.slice();
+  getClientes(): Observable<any> {
+    return this.httpClient.get(this.url);
   }
 
-  adicionarCliente(cliente: Cliente): void {
-    this.clientes.push(cliente);
-    this.disparaEventoAtualizacaoListaClientes();
-  }
-
-  private disparaEventoAtualizacaoListaClientes(): void {
-    this.listaClienteSubject.next(this.clientes.slice());
+  createNewCliente(nome: string, cpf: string) {
+    const objCliente = {
+      nome,
+      cpf
+    };
+    return this.httpClient.post(`${this.uri}/clientes`, objCliente).subscribe(res => console.log('Feito'));
   }
 
 }
