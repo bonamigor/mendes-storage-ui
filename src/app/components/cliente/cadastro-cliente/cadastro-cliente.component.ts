@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Cliente } from 'src/app/models/cliente.model';
+import Cliente from 'src/app/models/cliente.model';
 import { ClienteService } from 'src/app/services/cliente.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 
@@ -32,19 +32,12 @@ export class CadastroClienteComponent implements OnInit {
   onSubmit(): void { 
     const nome = this.formularioCadastro.value.nome;
     const cpf = this.formularioCadastro.value.cpf;
+    this.clienteService.createNewCliente(nome, cpf);
 
-    const cliente = new Cliente(this.getRandomId(), nome, cpf);
-
-    this.clienteService.adicionarCliente(cliente);
-
-    console.log(cliente);
+    console.log(nome);
     
     this.formularioCadastro.reset();
     this.retornaPaginaDeListar();
-  }
-
-  getRandomId(): number {
-    return Math.floor(Math.random() * 100);
   }
 
   retornaPaginaDeListar() {
