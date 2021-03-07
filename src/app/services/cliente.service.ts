@@ -8,10 +8,10 @@ import Cliente from '../models/cliente.model';
 })
 export class ClienteService {
 
-  uri = 'https://bonamigo-api.herokuapp.com';
   url = 'https://bonamigo-api.herokuapp.com/clientes';
 
   listaClienteSubject = new Subject<Cliente[]>();
+  cliente!: Cliente[];
 
   constructor(private httpClient: HttpClient) { }
 
@@ -19,12 +19,20 @@ export class ClienteService {
     return this.httpClient.get(this.url);
   }
 
-  createNewCliente(nome: string, cpf: string) {
-    const objCliente = {
-      nome,
-      cpf
-    };
-    return this.httpClient.post(`${this.uri}/clientes`, objCliente).subscribe(res => console.log('Feito'));
+  getClienteById(id: number): Observable<any> {
+    return this.httpClient.get(`${this.url}/${id}`)
+  }
+
+  createNewCliente(cliente: Cliente): Observable<any> {
+    return this.httpClient.post(`${this.url}`, cliente);
+  }
+
+  updateCliente(cliente: Cliente): Observable<any> {
+    return this.httpClient.put(`${this.url}/${cliente.codigo}`, cliente);
+  }
+
+  deleteCliente(id: number): Observable<any> {
+    return this.httpClient.delete(`${this.url}/${id}`);
   }
 
 }

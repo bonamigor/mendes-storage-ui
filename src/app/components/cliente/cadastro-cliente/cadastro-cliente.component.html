@@ -1,6 +1,6 @@
 <div>
   <div fxLayout.lt-xl="row" fxLayoutAlign="center center" style="padding-top: 20px;">
-    <h1>Novo Cliente</h1>
+    <h1>{{ modoEdicao ? 'Atualizar Cliente' : 'Novo Cliente' }}</h1>
   </div>
         <div fxLayout="column" fxLayoutAlign="center">
           <form [formGroup]="formularioCadastro"
@@ -8,24 +8,18 @@
             <div class="centro">
               <mat-form-field class="example-full-width">
                 <mat-label>Nome</mat-label>
-                <input matInput [formControl]="nomeFormControl"
+                <input matInput formControlName="nome"
                 placeholder="Ex: Fulano da Silva"
                 required>
-                <mat-error *ngIf="nomeFormControl.hasError('required')">
-                  Nome é obrigatório
-                </mat-error>
               </mat-form-field>
             </div>
             <div class="centro">
               <mat-form-field class="example-full-width">
                 <mat-label>CPF</mat-label>
-                <input matInput [formControl]="cpfFormControl"
+                <input matInput formControlName="cpf"
                 placeholder="Ex: 000.000.000-00"
                 required
                 mask="000.000.000-00">
-                <mat-error *ngIf="cpfFormControl.hasError('required')">
-                  CPF é obrigatório
-                </mat-error>
               </mat-form-field>
             </div>
             <div fxLayout="row" fxLayoutAlign="center">
@@ -33,7 +27,9 @@
               mat-raised-button 
               color="primary"
               type="submit"
-              [disabled]="!formularioCadastro.valid">Cadastrar</button>
+              [disabled]="!formularioCadastro.valid">
+              {{ modoEdicao ? 'Atualizar' : 'Cadastrar' }}
+            </button>
             </div>
           </form>
         </div>

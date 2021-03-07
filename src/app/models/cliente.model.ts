@@ -1,5 +1,5 @@
 export default class Cliente {
-    id?: number;
+    codigo!: number;
     nome!: string;
     cpf!: string;
 }

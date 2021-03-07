@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import {ActivatedRoute, Params, Router} from '@angular/router';
+import { Lancamento } from 'src/app/models/lancamento.model';
 import { LancamentoService } from 'src/app/services/lancamento.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cadastro-lancamento',
@@ -11,94 +13,97 @@ import { LancamentoService } from 'src/app/services/lancamento.service';
 export class CadastroLancamentoComponent implements OnInit {
 
   modoEdicao = false;
-  idLancamentoAtual!: number;
-  formularioCadastro!: FormGroup;
+  formularioCadastro: FormGroup = this.formBuilder.group({
+    cliente: ['', Validators.required],
+    dataLancamento: ['', Validators.required],
+    produto: ['', Validators.required],
+    unidadeMedida: ['', Validators.required],
+    valorUnitario: ['', Validators.required],
+    quantidade: ['', Validators.required],
+    valorTotal: ['', Validators.required],
+    numeroNota: ['', Validators.required],
+    observacao: ['', Validators.required],
+  });
+  id_lancamento: number = 0;
 
-  clienteFormControl = new FormControl;
-  dataFormControl = new FormControl;
-  produtoFormControl = new FormControl;
-  unidadeMedidaFormControl = new FormControl;
-  valorUnitarioFormControl = new FormControl;
-  quantidadeFormControl = new FormControl;
-  valorTotalFormControl = new FormControl;
-  numeroNotaFormControl = new FormControl;
-  observacaoFormControl = new FormControl;
-
-  constructor(private router: Router, private activedRoute: ActivatedRoute, private lancamentoService: LancamentoService) { }
+  constructor(
+    private router: Router, 
+    private activedRoute: ActivatedRoute, 
+    private lancamentoService: LancamentoService,
+    private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.activedRoute.params.subscribe(
-      (params: Params) => {
-        this.idLancamentoAtual = +params.id;
-        this.modoEdicao = params.id != null;
-        this.iniciarFormulario();
+    this.checkParam();
+  }
+
+  checkParam(): void {
+    this.activedRoute.params.subscribe(params => {
+      if(params.id) {
+        this.id_lancamento = params.id;
+        this.modoEdicao = true;
+        this.getLancamento(this.id_lancamento);
+      }
+    })
+  }
+
+  getLancamento(id: number): void {
+    this.lancamentoService.getLancamentoById(id).subscribe((res: Lancamento) => {
+      this.formularioCadastro.setValue({
+        cliente: res.cliente,
+        dataLancamento: res.dataLancamento,
+        produto: res.produto,
+        unidadeMedida: res.unidadeMedida,
+        valorUnitario: res.valorUnitario,
+        quantidade: res.quantidade,
+        valorTotal: res.valorTotal,
+        numeroNota: res.numeroNota,
+        observacao: res.observacao
+      });
     });
   }
 
-  private iniciarFormulario(): void {
-    let cliente = '';
-    let data: Date | any;
-    let produto = '';
-    let unidadeMedida = '';
-    let valorUnitario: number | any;
-    let quantidade: number | any;
-    let valorTotal: number | any;
-    let numeroNota: number | any;
-    let observacao = '';
+  createLancamento(): void {
+    this.lancamentoService.createNewLancamento(this.formularioCadastro.value).subscribe(res => {
+      Swal.fire({
+        title: 'Lançamento cadastrado com sucesso!',
+        icon: 'success',
+        showConfirmButton: true,
+        allowOutsideClick: false,
+        allowEnterKey: true,
+        allowEscapeKey: false,
+      }).then((data) => {
+        this.router.navigate(['/lancamentos']);
+      });
+    });
+  }
+  
+  updateLancamento(): void {
+    const lancamento: Lancamento = {
+      id: this.id_lancamento,
+      ...this.formularioCadastro.value
+    };
 
-    if (this.modoEdicao) {
-      const lancamento = this.lancamentoService.getLancamentoPorId(this.idLancamentoAtual);
-      cliente = lancamento.cliente;
-      data = lancamento.dataLancamento;
-      produto = lancamento.produto;
-      unidadeMedida = lancamento.unidadeMedida;
-      valorUnitario = lancamento.valorUnitario;
-      quantidade = lancamento.quantidade;
-      valorTotal = lancamento.valorTotal;
-      numeroNota = lancamento.numeroNota;
-      observacao = lancamento.observacao;
+    this.lancamentoService.updateLancamento(lancamento).subscribe(res => {
+      Swal.fire({
+        title: 'Lançamento atualizado com sucesso!',
+        icon: 'success',
+        showConfirmButton: true,
+        allowOutsideClick: false,
+        allowEnterKey: true,
+        allowEscapeKey: false,
+      }).then((data) => {
+        this.router.navigate(['/lancamentos']);
+      });
+    })
+
+  }
+
+  onSubmit(): void { 
+    if(!this.id_lancamento) {
+      this.createLancamento();
+    } else {
+      this.updateLancamento();
     }
-
-    this.clienteFormControl = new FormControl(cliente, [Validators.required]);
-    this.dataFormControl = new FormControl(data, [Validators.required]);
-    this.produtoFormControl = new FormControl(produto, [Validators.required]);
-    this.unidadeMedidaFormControl = new FormControl(unidadeMedida, [Validators.required]);
-    this.valorUnitarioFormControl = new FormControl(valorUnitario, [Validators.required]);
-    this.quantidadeFormControl = new FormControl(quantidade, [Validators.required]);
-    this.valorTotalFormControl = new FormControl(valorTotal, [Validators.required]);
-    this.numeroNotaFormControl = new FormControl(numeroNota, [Validators.required]);
-    this.observacaoFormControl = new FormControl(observacao, [Validators.required]);
-
-    this.formularioCadastro = new FormGroup({
-      cliente: this.clienteFormControl,
-      data: this.dataFormControl,
-      produto: this.produtoFormControl,
-      unidadeMedida: this.unidadeMedidaFormControl,
-      valorUnitario: this.valorUnitarioFormControl,
-      quantidade: this.quantidadeFormControl,
-      valorTotal: this.valorTotalFormControl,
-      numeroNota: this.numeroNotaFormControl,
-      observacao: this.observacaoFormControl
-    });
-  }
-
-  onSubmit(): void {
-    const cliente = this.formularioCadastro.value.cliente;
-    const data = this.formularioCadastro.value.data;
-    const produto = this.formularioCadastro.value.produto;
-    const unidadeMedida = this.formularioCadastro.value.unidadeMedida;
-    const valorUnitario = this.formularioCadastro.value.valorUnitario;
-    const quantidade = this.formularioCadastro.value.quantidade;
-    const valorTotal = this.formularioCadastro.value.valorTotal;
-    const numeroNota = this.formularioCadastro.value.numeroNota;
-    const observacao = this.formularioCadastro.value.observacao;
-    
-    this.formularioCadastro.reset();
-    this.retornaPaginaDeListar();
-  }
-
-  retornaPaginaDeListar() {
-    this.router.navigate(['/lancamentos']);
   }
 
 }
